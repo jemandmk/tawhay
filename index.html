@@ -1,0 +1,3621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tawhay - One Day at a Time</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #F5F3EF;
+            --surface: #FFFFFF;
+            --text: #2D2D2D;
+            --text-light: #7A7A7A;
+            --accent: #7B8FA8;
+            --primary: #7B8FA8;
+            --border: #E8DFD8;
+            --warm-peach: #F5E9E3;
+            --warm-accent: #A8B89C;
+            /* Darker sage for accent TEXT on the cream background (readable contrast).
+               --warm-accent stays for borders, dots, and gradients. */
+            --accent-text: #5E7257;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --glow: 0 0 30px rgba(123, 143, 168, 0.2);
+            /* Age-appropriate font sizes */
+            --font-greeting: 3.6rem;
+            --font-section: 0.95rem;
+            --font-body: 1rem;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(135deg, #F5F3EF 0%, #F0EBE5 50%, #F5F3EF 100%);
+            background-attachment: fixed;
+            color: var(--text);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(168, 184, 156, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(123, 143, 168, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ONBOARDING */
+        .onboarding {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #F5F3EF 0%, #F0EBE5 35%, #EBE5DF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            flex-direction: column;
+            animation: fadeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto;
+        }
+
+        .onboarding::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(168, 184, 156, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(123, 143, 168, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .onboarding.hidden {
+            display: none;
+        }
+
+        .onboarding-content {
+            max-width: 600px;
+            width: 92%;
+            text-align: center;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(250, 250, 248, 0.98) 100%);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 32px;
+            padding: 4rem 3rem;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.12),
+                0 0 1px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(20px);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .onboarding-title {
+            font-family: "Inter", sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-weight: 800;
+            background: linear-gradient(135deg, #2D2D2D 0%, #6B7A7F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .onboarding-subtitle {
+            color: var(--warm-accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 2.2rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.9rem;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 0.98rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1.2rem 1.4rem;
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAFAF8 100%);
+            color: var(--text);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            letter-spacing: 0.3px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--warm-accent);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF8 100%);
+            box-shadow:
+                0 12px 32px rgba(212, 165, 116, 0.2),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(122, 122, 122, 0.5);
+        }
+
+        .radio-group {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            padding: 1.3rem 1.5rem;
+            border: 2px solid rgba(212, 165, 116, 0.15);
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FAFAF8 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+
+        .radio-option:hover {
+            border-color: var(--warm-accent);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF8 100%);
+            box-shadow: 0 8px 24px rgba(212, 165, 116, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .radio-option input:checked + label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .radio-option input {
+            margin-right: 0.8rem;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 1rem;
+        }
+
+        .color-swatch {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            border: 2.5px solid transparent;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-swatch::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .color-swatch:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .color-swatch.selected {
+            border-color: var(--text);
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* STEPPED ONBOARDING */
+        .onboarding-step {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .onboarding-step.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .onboarding-flower-container {
+            margin: 2.5rem 0 3rem 0;
+            display: flex;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .onboarding-flower {
+            width: 160px;
+            height: 160px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .onboarding-flower::before {
+            content: '';
+            position: absolute;
+            inset: -30px;
+            background: radial-gradient(circle at 30% 30%, rgba(244, 228, 215, 0.6), transparent);
+            animation: flowerGlow 3s ease-in-out infinite;
+            border-radius: 50%;
+        }
+
+        @keyframes flowerGlow {
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .onboarding-flower::after {
+            content: '🌱';
+            position: absolute;
+            font-size: 6rem;
+            animation: flowerBloom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            z-index: 2;
+        }
+
+        @keyframes flowerBloom {
+            0% { transform: scale(0.3) rotate(-20deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Step-specific flower emojis */
+        .onboarding-step:nth-child(1) .onboarding-flower::after { content: '🌱'; font-size: 5rem; }
+        .onboarding-step:nth-child(2) .onboarding-flower::after { content: '🌿'; font-size: 5.5rem; }
+        .onboarding-step:nth-child(3) .onboarding-flower::after { content: '🌾'; font-size: 6rem; }
+        .onboarding-step:nth-child(4) .onboarding-flower::after { content: '🌸'; font-size: 6.5rem; }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .step-progress {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .step-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--warm-accent));
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .onboarding-step-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(250, 250, 248, 0.5) 100%);
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(250, 250, 248, 0.8) 100%);
+            box-shadow: 0 8px 20px rgba(139, 155, 152, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.4rem 2rem;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--warm-accent) 100%);
+            color: white;
+            margin-top: 2.5rem;
+            box-shadow: 0 16px 32px rgba(139, 155, 152, 0.35);
+            letter-spacing: 0.6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+            border-radius: 18px;
+            pointer-events: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(139, 155, 152, 0.45);
+        }
+
+        .btn:active {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(139, 155, 152, 0.3);
+        }
+
+        /* MAIN LAYOUT */
+        .app {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1.5rem;
+            padding: 1.5rem 4rem;
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, rgba(245, 243, 239, 0.95) 0%, rgba(240, 235, 229, 0.95) 50%, rgba(245, 243, 239, 0.95) 100%);
+            z-index: 50;
+            border-bottom: 1px solid rgba(168, 184, 156, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .app-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            position: sticky;
+            top: 70px;
+            grid-column: 1;
+            grid-row: 2;
+            width: 300px;
+            padding: 1.5rem;
+            height: fit-content;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .app-main {
+            display: flex;
+            flex-direction: column;
+            grid-column: 2;
+            grid-row: 2;
+            padding: 3rem 4rem;
+            max-width: 900px;
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            align-items: start;
+        }
+
+        @media (max-width: 1000px) {
+            .app {
+                grid-template-columns: 280px 1fr;
+            }
+
+            .app-sidebar {
+                width: 280px;
+                padding: 1.2rem;
+            }
+
+            .app-main {
+                padding: 1.2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .app {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .app-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .app-sidebar {
+                position: relative;
+                top: 0;
+                width: 100%;
+                max-height: none;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .app-main {
+                grid-column: 1;
+                padding: 0 1.5rem 1.5rem 1.5rem;
+            }
+        }
+
+        /* WELCOME SECTION */
+        .welcome {
+            margin-bottom: 3.5rem;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s backwards;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .welcome::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: -30%;
+            width: 160%;
+            height: 400px;
+            background: radial-gradient(circle at 30% 50%, rgba(244, 228, 215, 0.5) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: floatBackground 6s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .greeting {
+            font-family: "Inter", sans-serif;
+            font-size: var(--font-greeting);
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #2D2D2D 0%, #6B7A7F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            animation: fadeInDown 0.8s ease 0.2s backwards;
+            transition: font-size 0.5s ease;
+        }
+
+        .encouragement {
+            color: var(--accent-text);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0.8rem 0 0 0;
+            animation: fadeInUp 0.8s ease 0.25s backwards;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .date {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 3rem;
+            margin-top: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.3s backwards;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* MOTIVATION CARD */
+        .motivation-card {
+            background: linear-gradient(135deg, rgba(244, 228, 215, 0.6) 0%, rgba(255, 245, 240, 0.8) 50%, rgba(212, 165, 116, 0.05) 100%);
+            border: 1.5px solid rgba(212, 165, 116, 0.3);
+            padding: 2.2rem;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            margin-top: 2rem;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+            box-shadow:
+                0 8px 32px rgba(212, 165, 116, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .motivation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .motivation-text {
+            color: var(--text);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.8;
+            letter-spacing: 0.4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* FLOWER */
+        .flower-container {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s backwards;
+            padding: 4rem 3rem;
+            background: linear-gradient(135deg, rgba(255, 245, 240, 0.6) 0%, rgba(244, 228, 215, 0.5) 50%, rgba(212, 165, 116, 0.15) 100%);
+            border-radius: 32px;
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            box-shadow:
+                0 20px 60px rgba(212, 165, 116, 0.15),
+                0 0 1px rgba(0, 0, 0, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flower-container::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: floatElement 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes floatElement {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-40px, -40px); }
+        }
+
+        .flower {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .flower:hover {
+            transform: scale(1.05);
+        }
+
+        /* Soft aura behind the flower so it reads as the centerpiece */
+        .flower::before {
+            content: '';
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.22) 0%, rgba(168, 184, 156, 0.12) 45%, transparent 70%);
+            z-index: 0;
+            animation: auraPulse 5s ease-in-out infinite;
+        }
+
+        @keyframes auraPulse {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        .flower-ring {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .flower-ring circle:last-of-type {
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .flower-emoji {
+            position: relative;
+            z-index: 2;
+            font-size: 5rem;
+            line-height: 1;
+            filter: drop-shadow(0 8px 16px rgba(212, 165, 116, 0.3));
+            animation: flowerBloom 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        /* flowerBloom keyframe is defined once near the onboarding styles and reused here. */
+
+        .flower-percent {
+            position: absolute;
+            bottom: -2.2rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-text);
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .flower.celebrating {
+            animation: flowerCelebrate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .flower.celebrating .flower-emoji {
+            filter: drop-shadow(0 0 22px rgba(212, 165, 116, 0.65));
+            transition: filter 0.3s ease;
+        }
+
+        @keyframes flowerCelebrate {
+            0%, 100% { transform: scale(1); }
+            40% { transform: scale(1.18); }
+        }
+
+        .wisdom-card {
+            background: linear-gradient(135deg, var(--warm-peach), rgba(244, 228, 215, 0.7));
+            border: 1.5px solid rgba(212, 165, 116, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            margin: 2rem 0;
+        }
+
+        .wisdom-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .wisdom-attribution {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .flower-completion {
+            color: var(--text);
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease 0.5s backwards;
+            max-width: 500px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* TODAY'S FOCUS */
+        .section {
+            margin-bottom: 3.5rem;
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .section:nth-of-type(3) { animation-delay: 0.5s; }
+        .section:nth-of-type(4) { animation-delay: 0.6s; }
+        .section:nth-of-type(5) { animation-delay: 0.7s; }
+
+        .section-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--warm-accent) 0%, var(--primary) 100%);
+            opacity: 0.8;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            transform: translateX(4px);
+        }
+
+        .task-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .custom-checkbox {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border: 2.5px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .custom-checkbox.high {
+            border-color: #D32F2F;
+        }
+
+        .custom-checkbox.medium {
+            border-color: #F57C00;
+        }
+
+        .custom-checkbox.low {
+            border-color: #388E3C;
+        }
+
+        .custom-checkbox.checked {
+            background: var(--primary);
+            animation: checkboxFill 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .custom-checkbox.checked.high {
+            background: #D32F2F;
+        }
+
+        .custom-checkbox.checked.medium {
+            background: #F57C00;
+        }
+
+        .custom-checkbox.checked.low {
+            background: #388E3C;
+        }
+
+        .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1;
+            opacity: 0;
+            animation: checkmarkAppear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
+        }
+
+        @keyframes checkboxFill {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes checkmarkAppear {
+            0% { opacity: 0; transform: scale(0.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .task-item.completed .task-text {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .task-priority {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .priority-high {
+            background: #FFE5E5;
+            color: #D32F2F;
+        }
+
+        .priority-medium {
+            background: #FFF3E0;
+            color: #F57C00;
+        }
+
+        .priority-low {
+            background: #E8F5E9;
+            color: #388E3C;
+        }
+
+        .task-delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0;
+            opacity: 0;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .task-item:hover .task-delete-btn {
+            opacity: 0.6;
+            color: #D32F2F;
+        }
+
+        .task-delete-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .add-task {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .add-task input {
+            flex: 1;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: var(--surface);
+            font-family: "Inter", sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .add-task input:focus {
+            outline: none;
+            border-color: var(--warm-accent);
+            box-shadow:
+                0 4px 12px rgba(212, 165, 116, 0.15),
+                inset 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .add-task button {
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--warm-accent) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(139, 155, 152, 0.2);
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        .add-task button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 155, 152, 0.3);
+        }
+
+        .add-task button:active {
+            transform: translateY(0px);
+            box-shadow: 0 2px 8px rgba(139, 155, 152, 0.15);
+        }
+
+        .priority-selector {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+            padding: 0 0.2rem;
+        }
+
+        .priority-option {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #E8E8E6;
+            border-radius: 8px;
+            background: var(--surface);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+
+        .priority-option:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .priority-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(139, 155, 152, 0.1), rgba(212, 165, 116, 0.1));
+            transform: scale(1.05);
+        }
+
+        .priority-option.selected.high {
+            border-color: #D32F2F;
+            background: rgba(211, 47, 47, 0.08);
+        }
+
+        .priority-option.selected.medium {
+            border-color: #F57C00;
+            background: rgba(245, 124, 0, 0.08);
+        }
+
+        .priority-option.selected.low {
+            border-color: #388E3C;
+            background: rgba(56, 142, 60, 0.08);
+        }
+
+        .show-more-tasks {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .show-more-tasks button {
+            padding: 0.8rem 1.6rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .show-more-tasks button:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* MOOD CHECK-IN */
+        .mood-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mood-btn {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mood-btn:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .mood-btn.selected {
+            border-color: var(--primary);
+            background: #F5F3EF;
+        }
+
+        /* CLEANING SUGGESTIONS */
+        .cleaning-btn {
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+        }
+
+        .cleaning-btn:hover {
+            border-color: var(--primary);
+            background: #F5F3EF;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* SIDEBAR CARDS */
+        .sidebar-card {
+            background: linear-gradient(135deg, rgba(255, 245, 240, 0.5) 0%, rgba(244, 228, 215, 0.4) 100%);
+            border: 1.5px solid rgba(212, 165, 116, 0.25);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow:
+                0 8px 24px rgba(212, 165, 116, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .inspiration-sidebar {
+            animation-delay: 0.2s;
+        }
+
+        .motivation-sidebar {
+            animation-delay: 0.3s;
+        }
+
+        .sidebar-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* INSPIRATION CARD */
+        .inspiration-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .inspiration-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .inspiration-author {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* SETTINGS */
+        .settings-btn {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(250, 250, 248, 0.9) 100%);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .settings-btn:hover {
+            border-color: var(--warm-accent);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .music-btn {
+            position: relative;
+            padding: 0.8rem 1.4rem;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(250, 250, 248, 0.9) 100%);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .music-btn:hover {
+            border-color: var(--warm-accent);
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .music-btn.playing {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--warm-accent) 100%);
+            color: white;
+            border-color: var(--warm-accent);
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* CALENDAR VIEWS */
+        .view-btn {
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .view-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .view-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            position: relative;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--surface);
+            font-size: 0.9rem;
+        }
+
+        .cal-note-dot {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--warm-accent);
+        }
+
+        .calendar-day.today .cal-note-dot {
+            background: #fff;
+        }
+
+        .calendar-day:hover {
+            border-color: var(--primary);
+            background: #F5F3EF;
+        }
+
+        .calendar-day.today {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .week-view {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+        }
+
+        .week-day {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            min-height: 200px;
+        }
+
+        .week-day-header {
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+
+        .week-day.is-today {
+            border: 2px solid var(--primary);
+        }
+
+        /* Calendar task reflection (daily/weekly views) */
+        .cal-day-card {
+            padding: 1.5rem;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .cal-day-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .cal-count {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .cal-task {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            padding: 0.4rem 0;
+        }
+
+        .cal-task::before {
+            content: '○';
+            color: var(--text-light);
+        }
+
+        .cal-task.done {
+            color: var(--text-light);
+            text-decoration: line-through;
+        }
+
+        .cal-task.done::before {
+            content: '●';
+            color: var(--warm-accent);
+        }
+
+        .cal-empty {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .week-count-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--warm-accent);
+        }
+
+        /* MEAL PLANNER */
+        /* MEAL PLANNER TABS */
+        .meal-tab {
+            padding: 0.7rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+            white-space: nowrap;
+        }
+
+        .meal-tab:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .meal-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .meal-item-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .meal-item-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .meal-item-card-name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .meal-item-card-ingredients {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .meal-item-card-remove {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0 0.5rem;
+            opacity: 0.5;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .meal-item-card-remove:hover {
+            color: #D32F2F;
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .meal-input-field {
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background: var(--surface);
+            transition: all 0.3s ease;
+        }
+
+        .meal-input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 155, 152, 0.1);
+        }
+
+        .meal-add-btn {
+            padding: 0.8rem 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: "Inter", sans-serif;
+        }
+
+        .meal-add-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .meal-day {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .meal-day-title {
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .meal-item {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.4rem;
+            padding: 0.3rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meal-item-text {
+            flex: 1;
+        }
+
+        .meal-remove-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0 0.3rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .meal-remove-btn:hover {
+            opacity: 1;
+        }
+
+        .meal-input-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .meal-input-row input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-family: "Inter", sans-serif;
+        }
+
+        .meal-input-row button {
+            padding: 0.5rem 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .meal-input-row button:hover {
+            opacity: 0.9;
+        }
+
+        .meal-item-detailed {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .meal-name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .meal-ingredients {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        /* CULTURAL MEALS */
+        .cultural-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .cultural-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cultural-meals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .cultural-meal-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.7rem;
+            cursor: pointer;
+            text-align: left;
+            font-family: "Inter", sans-serif;
+            transition: all 0.3s ease;
+            color: var(--text);
+        }
+
+        .cultural-meal-btn:hover {
+            border-color: var(--primary);
+            background: #F5F3EF;
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .meal-search-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background: var(--surface);
+            transition: all 0.3s ease;
+        }
+
+        .meal-search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 155, 152, 0.1);
+        }
+
+        .meal-search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        /* MONTHLY HIGHLIGHTS & LOWLIGHTS */
+        .monthly-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .highlight-card {
+            border-left: 4px solid #7BA87F;
+        }
+
+        .lowlight-card {
+            border-left: 4px solid #B8938A;
+        }
+
+        .monthly-header {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .monthly-list {
+            margin-bottom: 1rem;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .monthly-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding: 0.5rem 0 0.5rem 0.5rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .monthly-item span {
+            flex: 1;
+        }
+
+        .delete-month-item {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0 5px;
+            font-size: 1.1rem;
+            line-height: 1;
+            opacity: 0;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+
+        .delete-month-item:hover {
+            color: #B8938A;
+        }
+
+        .monthly-input {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-family: "Inter", sans-serif;
+        }
+
+        .monthly-btn {
+            width: 100%;
+            padding: 0.6rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .monthly-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .app {
+                padding: 3rem 1rem 2rem;
+            }
+
+            .greeting {
+                font-size: 1.8rem;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Age-Profile Customization */
+
+        /* Teens (13-19): Vibrant, playful, gamified */
+        [data-age-profile="teen"] {
+            --primary: #FF6B6B;
+            --accent: #4ECDC4;
+            --warm-accent: #FFE66D;
+        }
+
+        [data-age-profile="teen"] .encouragement {
+            color: #FF6B6B;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        [data-age-profile="teen"] .btn {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        [data-age-profile="teen"] .flower-container {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(78, 205, 196, 0.1) 100%);
+        }
+
+        /* Young Adults (20-35): Minimalist, efficient */
+        [data-age-profile="young-adult"] .app-main {
+            padding: 3rem 4rem;
+        }
+
+        [data-age-profile="young-adult"] .section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        [data-age-profile="young-adult"] .encouragement {
+            color: #7B8FA8;
+            font-weight: 700;
+        }
+
+        /* Adults (36-55): Clear, wellness-focused */
+        [data-age-profile="adult"] .flower-container {
+            padding: 4.5rem 3.5rem;
+        }
+
+        [data-age-profile="adult"] .greeting {
+            font-weight: 700;
+        }
+
+        [data-age-profile="adult"] .encouragement {
+            color: #5E8463;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        /* Seniors (55+): Large text, high contrast, accessible */
+        [data-age-profile="senior"] body {
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+
+        [data-age-profile="senior"] .encouragement {
+            color: #2D2D2D;
+            font-weight: 800;
+            font-size: 1.3rem;
+            line-height: 1.8;
+        }
+
+        [data-age-profile="senior"] .app-main {
+            padding: 4rem 5rem;
+        }
+
+        [data-age-profile="senior"] .section-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 2.5rem;
+        }
+
+        [data-age-profile="senior"] .btn {
+            padding: 1.6rem 2.2rem;
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        [data-age-profile="senior"] .form-input,
+        [data-age-profile="senior"] .radio-option {
+            font-size: 1.05rem;
+            padding: 1.4rem 1.6rem;
+        }
+
+        [data-age-profile="senior"] .task-item {
+            padding: 1.5rem;
+            font-size: 1.05rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- BACKGROUND MUSIC -->
+    <audio id="bgMusic" loop style="display: none;">
+        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
+    </audio>
+
+    <!-- ONBOARDING -->
+    <div class="onboarding" id="onboarding">
+        <div class="onboarding-content">
+            <!-- STEP 1: Welcome -->
+            <div class="onboarding-step active" id="step1" data-step="1">
+                <div class="onboarding-flower-container">
+                    <div class="onboarding-flower" id="onboardingFlower"></div>
+                </div>
+                <div class="onboarding-title">Welcome to Tawhay</div>
+                <div class="onboarding-subtitle">Your Personal Growth Companion</div>
+                <p style="font-size: 0.95rem; color: var(--text-light); margin: 1.5rem 0; line-height: 1.6;">Every day is an opportunity to grow. Tawhay helps you focus on what matters, celebrate progress, and bloom into your best self.</p>
+                <button class="btn" onclick="nextOnboardingStep()">Let's Begin</button>
+            </div>
+
+            <!-- STEP 2: Name & Age -->
+            <div class="onboarding-step" id="step2" data-step="2">
+                <div class="onboarding-step-header">
+                    <div class="step-indicator">
+                        <span class="step-number">1 of 4</span>
+                        <div class="step-progress"><div class="step-progress-fill" style="width: 25%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="onboarding-title" style="font-size: 1.8rem; margin-bottom: 2rem;">Tell us about you</div>
+
+                <div class="form-group">
+                    <label class="form-label">What's your name?</label>
+                    <input type="text" id="userName" class="form-input" placeholder="Sarah, David, Emily...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Age range</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="ageRange" value="teen" checked> Teen (13-19)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ageRange" value="young-adult"> Young Adult (20-35)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ageRange" value="adult"> Adult (36-55)
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="ageRange" value="senior"> Senior (55+)
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn" onclick="nextOnboardingStep()" style="flex: 1;">Next</button>
+                    <button class="btn-secondary" onclick="prevOnboardingStep()" style="flex: 1;">Back</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Theme -->
+            <div class="onboarding-step" id="step3" data-step="3">
+                <div class="onboarding-step-header">
+                    <div class="step-indicator">
+                        <span class="step-number">2 of 3</span>
+                        <div class="step-progress"><div class="step-progress-fill" style="width: 67%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="onboarding-title" style="font-size: 1.8rem; margin-bottom: 1rem;">Choose your vibe</div>
+                <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 2rem;">Click to preview how Tawhay will look</p>
+
+                <div class="color-grid">
+                    <div class="color-swatch selected" data-theme="warm-neutrals" style="background: linear-gradient(135deg, #F5E6E0, #EBE0DC);" onclick="selectThemeWithPreview(this)"></div>
+                    <div class="color-swatch" data-theme="nature" style="background: linear-gradient(135deg, #E8F5E9, #DCE8DC);" onclick="selectThemeWithPreview(this)"></div>
+                    <div class="color-swatch" data-theme="ocean" style="background: linear-gradient(135deg, #E0F2F1, #D8EEEB);" onclick="selectThemeWithPreview(this)"></div>
+                    <div class="color-swatch" data-theme="twilight" style="background: linear-gradient(135deg, #F3E5F5, #EDDDE7);" onclick="selectThemeWithPreview(this)"></div>
+                    <div class="color-swatch" data-theme="minimal" style="background: linear-gradient(135deg, #FAFAF8, #F0EEEC);" onclick="selectThemeWithPreview(this)"></div>
+                    <div class="color-swatch" data-theme="dark" style="background: linear-gradient(135deg, #1A1A1A, #2D2D2D);" onclick="selectThemeWithPreview(this)"></div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn" onclick="nextOnboardingStep()" style="flex: 1;">Next</button>
+                    <button class="btn-secondary" onclick="prevOnboardingStep()" style="flex: 1;">Back</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Ready -->
+            <div class="onboarding-step" id="step4" data-step="4">
+                <div class="onboarding-step-header">
+                    <div class="step-indicator">
+                        <span class="step-number">3 of 3</span>
+                        <div class="step-progress"><div class="step-progress-fill" style="width: 100%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="onboarding-flower-container">
+                    <div class="onboarding-flower" id="onboardingFlowerFinal"></div>
+                </div>
+
+                <div class="onboarding-title" style="font-size: 1.8rem;">You're all set!</div>
+                <div class="onboarding-subtitle" style="margin-bottom: 1.5rem;">Let's start your growth journey</div>
+
+                <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 2rem; line-height: 1.6;">Your personalized Tawhay is ready. Complete tasks, celebrate progress, and watch your flower bloom as you grow.</p>
+
+                <button class="btn" onclick="completeOnboarding()" style="width: 100%; margin-bottom: 1rem;">Begin Your Journey</button>
+                <button class="btn-secondary" onclick="prevOnboardingStep()" style="width: 100%;">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="app" id="app" style="display: none;">
+        <!-- APP HEADER -->
+        <div class="app-header">
+            <!-- SETTINGS & MUSIC BUTTONS -->
+            <button class="settings-btn" onclick="openSettings()" title="Settings" aria-label="Open settings">⚙</button>
+            <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music" aria-label="Toggle music">Music: Off</button>
+        </div>
+
+        <!-- MAIN CONTENT (Full Width) -->
+        <div class="app-main" style="grid-column: 1 / -1;">
+            <!-- WELCOME SECTION (Golden Triangle) -->
+            <div class="welcome">
+                <div class="greeting" id="greeting">Good morning, Sarah</div>
+                <div class="encouragement" id="encouragement">Let's make today count</div>
+                <div class="date" id="dateDisplay"></div>
+            </div>
+
+            <!-- FLOWER (Golden Triangle) -->
+            <div class="flower-container">
+                <div class="flower" id="flower"></div>
+                <div class="flower-completion" id="flowerText">You've completed 0 tasks today</div>
+            </div>
+
+            <!-- TODAY'S FOCUS (Golden Triangle) -->
+            <div class="section">
+                <div class="section-title" id="todayFocusTitle">Today's Focus</div>
+                <div id="taskList"></div>
+                <div style="margin-top: 1rem;">
+                    <div class="add-task">
+                        <input type="text" id="newTaskInput" placeholder="Add a task..." onkeypress="if(event.key==='Enter') addTask()" aria-label="Add new task">
+                        <button onclick="addTask()">Add</button>
+                    </div>
+                    <div class="priority-selector">
+                        <button class="priority-option selected" data-priority="low" onclick="selectPriority(this)">Low</button>
+                        <button class="priority-option" data-priority="medium" onclick="selectPriority(this)">Medium</button>
+                        <button class="priority-option" data-priority="high" onclick="selectPriority(this)">High</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TODAY'S WISDOM (Integrated Sidebar Content) -->
+            <div class="section wisdom-card">
+                <div class="wisdom-text" id="wisdomText">"The only way to do great work is to love what you do."</div>
+                <div class="wisdom-attribution" id="wisdomAttribution">— Steve Jobs</div>
+            </div>
+
+            <!-- MOOD CHECK-IN -->
+            <div class="section">
+                <div class="section-title">How Are You Feeling?</div>
+                <div class="mood-selector">
+                    <button class="mood-btn" onclick="setMood(this)" data-mood="sad" aria-label="Set mood to Low">Low</button>
+                    <button class="mood-btn" onclick="setMood(this)" data-mood="neutral" aria-label="Set mood to Neutral">Neutral</button>
+                    <button class="mood-btn" onclick="setMood(this)" data-mood="good" aria-label="Set mood to Good">Good</button>
+                    <button class="mood-btn" onclick="setMood(this)" data-mood="great" aria-label="Set mood to Great">Great</button>
+                    <button class="mood-btn" onclick="setMood(this)" data-mood="excellent" aria-label="Set mood to Excellent">Excellent</button>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS (Collapsible Secondary Features) -->
+            <div class="quick-actions-section">
+                <button class="quick-actions-toggle" onclick="toggleQuickActions()" style="font-size: 1rem; font-weight: 700; cursor: pointer; margin: 1.5rem 0 1rem 0; padding: 0.75rem 0; border: none; background: none; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
+                    QUICK ACTIONS
+                    <span class="chevron" style="transition: transform 0.2s ease; font-size: 0.8rem;">▼</span>
+                </button>
+                <div class="quick-actions-content" id="quickActionsContent" style="max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+                    <!-- CALENDAR VIEWS -->
+                    <div class="section">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button class="view-btn active" onclick="switchCalendarView('daily', this)">Daily</button>
+                            <button class="view-btn" onclick="switchCalendarView('weekly', this)">Weekly</button>
+                            <button class="view-btn" onclick="switchCalendarView('monthly', this)">Monthly</button>
+                        </div>
+                        <div id="calendarView" style="margin-bottom: 2rem;"></div>
+                    </div>
+
+                    <!-- MEAL PLANNER -->
+                    <div class="section">
+                        <div class="section-title">This Week's Meals</div>
+                        <div class="meal-planner-tabs" id="mealPlannerTabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 0.5rem;"></div>
+                        <div class="meal-planner-content" id="mealPlannerContent" style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;"></div>
+                    </div>
+
+                    <!-- CULTURAL MEAL SUGGESTIONS -->
+                    <div class="section">
+                        <div class="section-title">Explore Global Cuisines</div>
+                        <div style="margin-bottom: 1rem;">
+                            <input type="text" id="mealSearch" placeholder="Search cuisines or meals..." class="meal-search-input">
+                        </div>
+                        <div id="culturalMealsContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.2rem; width: 100%;"></div>
+                    </div>
+
+                    <!-- WEEKLY CLEANING SUGGESTIONS -->
+                    <div class="section">
+                        <div class="section-title">Weekly Cleaning Ideas</div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem;">
+                            <button class="cleaning-btn" onclick="addCleaningTask('Vacuum living room')">Vacuum</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Clean bathroom')">Bathroom</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Wipe down kitchen')">Kitchen</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Change bed sheets')">Sheets</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Dust surfaces')">Dust</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Mop floors')">Floors</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Organize closet')">Closet</button>
+                            <button class="cleaning-btn" onclick="addCleaningTask('Laundry')">Laundry</button>
+                        </div>
+                    </div>
+
+                    <!-- MONTHLY HIGHLIGHTS & LOWLIGHTS -->
+                    <div class="section">
+                        <div class="section-title">This Month's Moments</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="monthly-card highlight-card">
+                                <div class="monthly-header">Highlights</div>
+                                <div class="monthly-list" id="highlightsList">
+                                    <div class="monthly-item">Great presentation at work</div>
+                                    <div class="monthly-item">Coffee with an old friend</div>
+                                </div>
+                                <input type="text" id="newHighlight" placeholder="Add a highlight..." class="monthly-input" onkeypress="if(event.key==='Enter') addHighlight()">
+                                <button onclick="addHighlight()" class="monthly-btn">Add</button>
+                            </div>
+                            <div class="monthly-card lowlight-card">
+                                <div class="monthly-header">Lowlights</div>
+                                <div class="monthly-list" id="lowlightsList">
+                                    <div class="monthly-item">Missed deadline</div>
+                                    <div class="monthly-item">Stressful day</div>
+                                </div>
+                                <input type="text" id="newLowlight" placeholder="Add a lowlight..." class="monthly-input" onkeypress="if(event.key==='Enter') addLowlight()">
+                                <button onclick="addLowlight()" class="monthly-btn">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSettings()">✕</button>
+            <div class="modal-header">Settings</div>
+
+            <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" id="settingName" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Theme</label>
+                <div class="color-grid">
+                    <div class="color-swatch" data-theme="warm-neutrals" style="background: linear-gradient(135deg, #F5E6E0, #EBE0DC);" onclick="selectThemeFromSettings(this)"></div>
+                    <div class="color-swatch" data-theme="nature" style="background: linear-gradient(135deg, #E8F5E9, #DCE8DC);" onclick="selectThemeFromSettings(this)"></div>
+                    <div class="color-swatch" data-theme="ocean" style="background: linear-gradient(135deg, #E0F2F1, #D8EEEB);" onclick="selectThemeFromSettings(this)"></div>
+                    <div class="color-swatch" data-theme="twilight" style="background: linear-gradient(135deg, #F3E5F5, #EDDDE7);" onclick="selectThemeFromSettings(this)"></div>
+                    <div class="color-swatch" data-theme="minimal" style="background: linear-gradient(135deg, #FAFAF8, #F0EEEC);" onclick="selectThemeFromSettings(this)"></div>
+                    <div class="color-swatch" data-theme="dark" style="background: linear-gradient(135deg, #1A1A1A, #2D2D2D);" onclick="selectThemeFromSettings(this)"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Your Goals</label>
+                <input type="text" id="settingGoals" class="form-input">
+            </div>
+
+            <button class="btn" onclick="saveSettings()">Save Settings</button>
+            <button class="btn" style="background: #E8F5E9; color: #388E3C; margin-top: 1rem;" onclick="showOnboarding()">Return to Setup</button>
+            <button class="btn" style="background: #DDD; color: #666; margin-top: 0.8rem;" onclick="resetApp()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        // Use real localStorage when available; fall back to in-memory storage only when it's
+        // genuinely unavailable (e.g. data: URLs). The test must probe window.localStorage —
+        // not safeStorage, which isn't assigned yet inside this IIFE.
+        const fallbackStorage = {};
+        const safeStorage = (() => {
+            try {
+                const test = '__tawhay_test__';
+                window.localStorage.setItem(test, test);
+                window.localStorage.removeItem(test);
+                return window.localStorage;
+            } catch (e) {
+                console.warn('localStorage unavailable, using in-memory storage');
+                return {
+                    getItem: (key) => (key in fallbackStorage ? fallbackStorage[key] : null),
+                    setItem: (key, value) => { fallbackStorage[key] = String(value); },
+                    removeItem: (key) => { delete fallbackStorage[key]; },
+                    clear: () => { Object.keys(fallbackStorage).forEach(key => delete fallbackStorage[key]); }
+                };
+            }
+        })();
+
+        // Age-appropriate interface customization based on psychology
+        const AGE_PROFILES = {
+            'teen': {
+                name: 'Teen (13-19)',
+                fontSize: 'larger',
+                colorIntensity: 'vibrant',
+                animations: 'playful',
+                features: ['gamification', 'achievements', 'social'],
+                greeting: 'What\'s up',
+                motivationStyle: 'energetic',
+                description: 'Vibrant, interactive, achievement-focused interface for teens'
+            },
+            'young-adult': {
+                name: 'Young Adult (20-35)',
+                fontSize: 'medium',
+                colorIntensity: 'balanced',
+                animations: 'smooth',
+                features: ['productivity', 'insights', 'goals'],
+                greeting: 'Good',
+                motivationStyle: 'motivational',
+                description: 'Minimalist, efficient, goal-oriented interface for young adults'
+            },
+            'adult': {
+                name: 'Adult (36-55)',
+                fontSize: 'medium',
+                colorIntensity: 'calm',
+                animations: 'subtle',
+                features: ['wellness', 'balance', 'health'],
+                greeting: 'Good',
+                motivationStyle: 'balanced',
+                description: 'Clear, focused on wellness and balance for adults'
+            },
+            'senior': {
+                name: 'Senior (55+)',
+                fontSize: 'xlarge',
+                colorIntensity: 'clear',
+                animations: 'minimal',
+                features: ['accessibility', 'simplicity', 'routine'],
+                greeting: 'Good',
+                motivationStyle: 'gentle',
+                description: 'Large text, high contrast, accessible interface for seniors'
+            }
+        };
+
+        function applyAgeProfile(ageRange) {
+            const profile = AGE_PROFILES[ageRange] || AGE_PROFILES['young-adult'];
+
+            // Apply font size
+            const fontSizeMap = {
+                'larger': { greeting: '4rem', section: '1.1rem', body: '1.05rem' },
+                'medium': { greeting: '3.6rem', section: '0.95rem', body: '1rem' },
+                'xlarge': { greeting: '4.5rem', section: '1.2rem', body: '1.1rem' }
+            };
+
+            const sizes = fontSizeMap[profile.fontSize];
+            if (sizes) {
+                document.documentElement.style.setProperty('--font-greeting', sizes.greeting);
+                document.documentElement.style.setProperty('--font-section', sizes.section);
+                document.documentElement.style.setProperty('--font-body', sizes.body);
+            }
+
+            // Apply age profile data attribute for CSS styling
+            document.documentElement.setAttribute('data-age-profile', ageRange);
+
+            // Store profile
+            safeStorage.setItem('tawhay-age-profile', ageRange);
+        }
+
+        // Restore age profile on page load
+        function restoreAgeProfile() {
+            const savedProfile = safeStorage.getItem('tawhay-age-profile');
+            if (savedProfile) {
+                applyAgeProfile(savedProfile);
+            }
+        }
+
+        const MOTIVATIONS = [
+            "You've got this! Take it one step at a time.",
+            "Every small action matters. You're building something amazing.",
+            "Today is your canvas. Paint it with intention.",
+            "Progress over perfection. Show up and give your best.",
+            "You're stronger than you think. Believe in yourself.",
+            "Today is a gift. Make it count.",
+            "Small wins add up to big dreams. Let's go!",
+            "Be proud of yourself for trying. That takes courage.",
+            "Your effort today shapes your tomorrow. You've got this.",
+            "Take a deep breath. You're exactly where you need to be."
+        ];
+
+        const BIBLE_VERSES = [
+            { text: "I can do all things through Christ who strengthens me.", reference: "Philippians 4:13" },
+            { text: "For God has not given us a spirit of fear, but of power and of love and of a sound mind.", reference: "2 Timothy 1:7" },
+            { text: "Trust in the Lord with all your heart, and lean not on your own understanding.", reference: "Proverbs 3:5" },
+            { text: "Therefore do not worry about tomorrow, for tomorrow will worry about itself.", reference: "Matthew 6:34" },
+            { text: "Come to me, all you who are weary and burdened, and I will give you rest.", reference: "Matthew 11:28" },
+            { text: "The Lord is my light and my salvation. Whom shall I fear?", reference: "Psalm 27:1" },
+            { text: "Be joyful in hope, patient in affliction, faithful in prayer.", reference: "Romans 12:12" },
+            { text: "And we know that in all things God works for the good of those who love him.", reference: "Romans 8:28" }
+        ];
+
+        const CULTURAL_MEALS = {
+            'Mediterranean': [
+                { name: 'Greek Salad', ingredients: 'Tomatoes, cucumbers, olives, feta, olive oil' },
+                { name: 'Hummus Bowl', ingredients: 'Chickpeas, tahini, lemon, olive oil, pita' },
+                { name: 'Grilled Fish', ingredients: 'Fish, lemon, herbs, olive oil, vegetables' }
+            ],
+            'Asian': [
+                { name: 'Stir Fry', ingredients: 'Vegetables, soy sauce, ginger, garlic, rice' },
+                { name: 'Pad Thai', ingredients: 'Rice noodles, peanuts, lime, eggs, shrimp' },
+                { name: 'Ramen', ingredients: 'Noodles, broth, eggs, vegetables, seaweed' }
+            ],
+            'Mexican': [
+                { name: 'Burrito Bowl', ingredients: 'Rice, beans, meat, salsa, avocado, cheese' },
+                { name: 'Ceviche', ingredients: 'Fish, lime, cilantro, onions, peppers' },
+                { name: 'Chiles Rellenos', ingredients: 'Poblano peppers, cheese, eggs, tomato sauce' }
+            ],
+            'Indian': [
+                { name: 'Butter Chicken', ingredients: 'Chicken, yogurt, tomato, cream, spices' },
+                { name: 'Vegetable Curry', ingredients: 'Vegetables, coconut milk, curry spices, rice' },
+                { name: 'Tandoori Chicken', ingredients: 'Chicken, yogurt, tandoori spices, lemon' }
+            ],
+            'Italian': [
+                { name: 'Pasta Primavera', ingredients: 'Pasta, seasonal vegetables, olive oil, garlic' },
+                { name: 'Risotto', ingredients: 'Arborio rice, vegetable broth, parmesan, white wine' },
+                { name: 'Caprese Salad', ingredients: 'Tomatoes, mozzarella, basil, olive oil, balsamic' }
+            ],
+            'Middle Eastern': [
+                { name: 'Falafel Wrap', ingredients: 'Chickpeas, herbs, tahini, pita, salad' },
+                { name: 'Kebab Skewers', ingredients: 'Meat, onions, peppers, yogurt sauce' },
+                { name: 'Tabbouleh', ingredients: 'Bulgur, parsley, tomatoes, lemon, olive oil' }
+            ],
+            'Filipino': [
+                { name: 'Adobo', ingredients: 'Chicken or pork, soy sauce, vinegar, garlic, bay leaves' },
+                { name: 'Sinigang', ingredients: 'Pork or shrimp, tamarind, radish, string beans, onions' },
+                { name: 'Lumpia', ingredients: 'Ground pork, vegetables, spring roll wrapper, sauce' },
+                { name: 'Pancit', ingredients: 'Noodles, soy sauce, vegetables, meat or shrimp' },
+                { name: 'Lechon', ingredients: 'Roasted pig, salt, spices, liver sauce' },
+                { name: 'Kare-Kare', ingredients: 'Beef, peanut butter, vegetables, annatto, shrimp paste' }
+            ]
+        };
+
+        let tasks = [];
+        let userData = {};
+
+        const THEMES = {
+            'warm': {
+                name: 'Warm Neutrals',
+                bg: '#FAFAF8',
+                surface: '#FFFFFF',
+                text: '#2D2D2D',
+                primary: '#C9956B',
+                gradient: 'linear-gradient(135deg, #F5E6E0, #EBE0DC)'
+            },
+            'nature': {
+                name: 'Nature Green',
+                bg: '#F3F8F5',
+                surface: '#FFFFFF',
+                text: '#2D2D2D',
+                primary: '#7BA87F',
+                gradient: 'linear-gradient(135deg, #E8F5E9, #DCE8DC)'
+            },
+            'ocean': {
+                name: 'Ocean Calm',
+                bg: '#EEF7FA',
+                surface: '#FFFFFF',
+                text: '#2D2D2D',
+                primary: '#5B9FB8',
+                gradient: 'linear-gradient(135deg, #E0F2F1, #D8EEEB)'
+            },
+            'twilight': {
+                name: 'Twilight Purple',
+                bg: '#FAF7FC',
+                surface: '#FFFFFF',
+                text: '#2D2D2D',
+                primary: '#9B7BA8',
+                gradient: 'linear-gradient(135deg, #F3E5F5, #EDDDE7)'
+            },
+            'minimal': {
+                name: 'Minimal White',
+                bg: '#FFFFFF',
+                surface: '#F5F5F5',
+                text: '#1A1A1A',
+                primary: '#666666',
+                gradient: 'linear-gradient(135deg, #FAFAF8, #F0EEEC)'
+            },
+            'dark': {
+                name: 'Dark Mode',
+                bg: '#0F0F0F',
+                surface: '#1A1A1A',
+                text: '#F0F0F0',
+                primary: '#9CAF88',
+                gradient: 'linear-gradient(135deg, #1A1A1A, #2D2D2D)'
+            }
+        };
+
+        function applyTheme(themeKey) {
+            const theme = THEMES[themeKey];
+            if (!theme) return;
+
+            document.documentElement.style.setProperty('--bg', theme.bg);
+            document.documentElement.style.setProperty('--surface', theme.surface);
+            document.documentElement.style.setProperty('--text', theme.text);
+            document.documentElement.style.setProperty('--primary', theme.primary);
+
+            userData.theme = themeKey;
+            safeStorage.setItem('tawhay-user', JSON.stringify(userData));
+        }
+
+        let currentOnboardingStep = 1;
+
+        function selectTheme(el) {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+
+            const themeKey = el.dataset.theme;
+            if (themeKey) applyTheme(themeKey);
+        }
+
+        function selectThemeFromSettings(el) {
+            document.querySelectorAll('.modal-content .color-swatch').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+
+            const themeKey = el.dataset.theme;
+            if (themeKey) applyTheme(themeKey);
+        }
+
+        function selectThemeWithPreview(el) {
+            selectTheme(el);
+        }
+
+        function saveOnboardingProgress() {
+            safeStorage.setItem('tawhay-onboarding-step', currentOnboardingStep.toString());
+        }
+
+        function nextOnboardingStep() {
+            if (currentOnboardingStep < 4) {
+                const currentStep = document.getElementById(`step${currentOnboardingStep}`);
+                if (currentStep) currentStep.classList.remove('active');
+                currentOnboardingStep++;
+                const nextStep = document.getElementById(`step${currentOnboardingStep}`);
+                if (nextStep) nextStep.classList.add('active');
+                saveOnboardingProgress();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function prevOnboardingStep() {
+            if (currentOnboardingStep > 1) {
+                const currentStep = document.getElementById(`step${currentOnboardingStep}`);
+                if (currentStep) currentStep.classList.remove('active');
+                currentOnboardingStep--;
+                const prevStep = document.getElementById(`step${currentOnboardingStep}`);
+                if (prevStep) prevStep.classList.add('active');
+                saveOnboardingProgress();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function preloadOnboarding() {
+            const saved = safeStorage.getItem('tawhay-user');
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+
+            // Pre-fill name
+            if (data.name) {
+                const nameInput = document.getElementById('userName');
+                if (nameInput) nameInput.value = data.name;
+            }
+
+            // Pre-select age range
+            if (data.ageRange) {
+                const ageRadio = document.querySelector(`input[name="ageRange"][value="${data.ageRange}"]`);
+                if (ageRadio) ageRadio.checked = true;
+            }
+
+            // Pre-select theme
+            if (data.theme) {
+                const swatches = document.querySelectorAll('.onboarding .color-swatch');
+                swatches.forEach(swatch => {
+                    if (swatch.dataset.theme === data.theme) {
+                        swatch.classList.add('selected');
+                    } else {
+                        swatch.classList.remove('selected');
+                    }
+                });
+            }
+        }
+
+        function completeOnboarding() {
+            try {
+                const nameInput = document.getElementById('userName');
+                const ageRadio = document.querySelector('input[name="ageRange"]:checked');
+                const themeSwatch = document.querySelector('.onboarding .color-swatch.selected');
+
+                console.log('Name input:', nameInput);
+                console.log('Age radio:', ageRadio);
+                console.log('Theme swatch:', themeSwatch);
+
+                if (!nameInput || !ageRadio || !themeSwatch) {
+                    console.error('Missing required form elements');
+                    alert('Please complete all steps: Name, Age, and Theme.');
+                    return;
+                }
+
+                const name = (nameInput.value || 'Friend').trim();
+                const ageRange = ageRadio.value || 'young-adult';
+                const selectedTheme = themeSwatch.dataset.theme || 'warm-neutrals';
+
+                console.log('Collected data:', { name, ageRange, selectedTheme });
+
+                userData = { name, ageRange, theme: selectedTheme };
+                safeStorage.setItem('tawhay-user', JSON.stringify(userData));
+                safeStorage.removeItem('tawhay-onboarding-step');
+
+                const onboarding = document.getElementById('onboarding');
+                const app = document.getElementById('app');
+
+                console.log('Onboarding element:', onboarding);
+                console.log('App element:', app);
+
+                if (onboarding) {
+                    onboarding.classList.add('hidden');
+                } else {
+                    console.error('Onboarding element not found');
+                }
+
+                if (app) {
+                    app.style.display = 'flex';
+                } else {
+                    console.error('App element not found');
+                }
+
+                document.body.classList.add('loaded');
+
+                console.log('Applying age profile:', ageRange);
+                applyAgeProfile(ageRange);
+
+                console.log('Calling initializeApp...');
+                initializeApp();
+                console.log('Onboarding complete!');
+
+            } catch (error) {
+                console.error('Error completing onboarding:', error);
+                console.error('Stack:', error.stack);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function restoreOnboardingProgress() {
+            const savedStep = safeStorage.getItem('tawhay-onboarding-step');
+            if (savedStep) {
+                const stepNum = parseInt(savedStep, 10);
+                if (stepNum > 1 && stepNum <= 4) {
+                    currentOnboardingStep = stepNum;
+                    for (let i = 1; i <= 4; i++) {
+                        const step = document.getElementById(`step${i}`);
+                        if (step) {
+                            if (i === stepNum) {
+                                step.classList.add('active');
+                            } else {
+                                step.classList.remove('active');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function savePageState() {
+            const state = {
+                scrollPosition: window.scrollY,
+                calendarView: document.querySelector('.view-btn.active')?.textContent || 'Daily',
+                mealDay: currentMealDay,
+                timestamp: Date.now()
+            };
+            safeStorage.setItem('tawhay-page-state', JSON.stringify(state));
+        }
+
+        function restorePageState() {
+            const state = JSON.parse(safeStorage.getItem('tawhay-page-state'));
+            if (!state) return;
+
+            // Restore calendar view
+            if (state.calendarView) {
+                const viewBtn = Array.from(document.querySelectorAll('.view-btn')).find(btn =>
+                    btn.textContent.includes(state.calendarView)
+                );
+                if (viewBtn) {
+                    switchCalendarView(state.calendarView.toLowerCase(), viewBtn);
+                }
+            }
+
+            // Restore meal day
+            if (state.mealDay && state.mealDay !== currentMealDay) {
+                currentMealDay = state.mealDay;
+                renderMealPlanner();
+            }
+
+            // Restore scroll position after content renders
+            setTimeout(() => {
+                window.scrollTo(0, state.scrollPosition);
+            }, 100);
+        }
+
+        function initializeApp() {
+            updateGreeting();
+            updateDate();
+            loadTasks();
+            updateFlower();
+            loadMotivation();
+            loadInspiration();
+            loadMonthlyData();
+            renderMealPlanner();
+            renderCulturalMeals();
+            initializeMealSearch();
+            loadMood();
+
+            tasks = JSON.parse(safeStorage.getItem('tawhay-tasks')) || [
+                { id: 1, title: 'Morning meditation', completed: false, priority: 'high' },
+                { id: 2, title: 'Drink water', completed: false, priority: 'high' },
+                { id: 3, title: 'Review goals', completed: false, priority: 'medium' }
+            ];
+            safeStorage.setItem('tawhay-tasks', JSON.stringify(tasks));
+            loadTasks();
+
+            // Restore page state
+            restorePageState();
+
+            // Save state periodically and on page unload
+            window.addEventListener('scroll', () => {
+                clearTimeout(window.saveStateTimeout);
+                window.saveStateTimeout = setTimeout(savePageState, 500);
+            });
+
+            window.addEventListener('beforeunload', savePageState);
+        }
+
+        function updateGreeting() {
+            const greeting_el = document.getElementById('greeting');
+            const encouragement_el = document.getElementById('encouragement');
+
+            if (!greeting_el) return;
+
+            const hour = new Date().getHours();
+            let greeting = '';
+            if (hour < 6) {
+                greeting = 'You\'re up early';
+            } else if (hour < 12) {
+                greeting = 'Good morning';
+            } else if (hour < 18) {
+                greeting = 'Good afternoon';
+            } else {
+                greeting = 'Good evening';
+            }
+
+            const completed = tasks.filter(t => t.completed).length;
+            const encouragement = completed === 0 ? 'Let\'s make today count' : 'You\'re on a roll';
+
+            greeting_el.textContent = `${greeting}, ${userData.name}`;
+
+            if (encouragement_el) {
+                encouragement_el.textContent = encouragement;
+            }
+        }
+
+        function updateDate() {
+            const dateDisplay = document.getElementById('dateDisplay');
+            const todayFocusTitle = document.getElementById('todayFocusTitle');
+
+            if (!dateDisplay && !todayFocusTitle) return;
+
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            const date = new Date().toLocaleDateString('en-US', options);
+
+            if (dateDisplay) dateDisplay.textContent = date;
+            if (todayFocusTitle) todayFocusTitle.textContent = `Today's Focus • ${date}`;
+        }
+
+        function loadMotivation() {
+            const motivationText = document.getElementById('motivationText');
+            if (!motivationText) return;
+
+            const today = new Date().getDate();
+            const motivation = MOTIVATIONS[today % MOTIVATIONS.length];
+            motivationText.textContent = motivation;
+        }
+
+        function loadInspiration() {
+            const wisdomText = document.getElementById('wisdomText');
+            const wisdomAttribution = document.getElementById('wisdomAttribution');
+
+            if (!wisdomText && !wisdomAttribution) return;
+
+            const today = new Date().getDate();
+            const verse = BIBLE_VERSES[today % BIBLE_VERSES.length];
+
+            if (wisdomText) wisdomText.textContent = `"${verse.text}"`;
+            if (wisdomAttribution) wisdomAttribution.textContent = `— ${verse.reference} (ESV)`;
+        }
+
+        function loadTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<div class="empty-state"><div class="empty-state-text">What would make today meaningful?</div></div>';
+                return;
+            }
+
+            const tasksToShow = tasks.slice(0, 7);
+            const hasMore = tasks.length > 7;
+
+            tasksToShow.forEach(task => {
+                const item = document.createElement('div');
+                item.className = `task-item ${task.completed ? 'completed' : ''}`;
+                const checkboxClass = `custom-checkbox ${task.priority} ${task.completed ? 'checked' : ''}`;
+                item.innerHTML = `
+                    <div class="${checkboxClass}" data-task-id="${task.id}" onclick="toggleTask(${task.id})" role="checkbox" aria-checked="${task.completed}" tabindex="0" onkeypress="if(event.key===' ') toggleTask(${task.id})"></div>
+                    <div class="task-text">${task.title}</div>
+                    <div class="task-priority priority-${task.priority}">${task.priority}</div>
+                    <button class="task-delete-btn" onclick="deleteTask(${task.id})" title="Delete task">×</button>
+                `;
+                taskList.appendChild(item);
+            });
+
+            if (hasMore) {
+                const showMoreDiv = document.createElement('div');
+                showMoreDiv.className = 'show-more-tasks';
+                showMoreDiv.innerHTML = `<button onclick="toggleShowMoreTasks()">Show ${tasks.length - 7} more task${tasks.length - 7 !== 1 ? 's' : ''}</button>`;
+                taskList.appendChild(showMoreDiv);
+            }
+
+            updateFlower();
+        }
+
+        function toggleShowMoreTasks() {
+            const taskList = document.getElementById('taskList');
+            const showMoreBtn = taskList.querySelector('.show-more-tasks button');
+
+            if (showMoreBtn.textContent.includes('Hide')) {
+                loadTasks();
+            } else {
+                taskList.innerHTML = '';
+                tasks.forEach(task => {
+                    const item = document.createElement('div');
+                    item.className = `task-item ${task.completed ? 'completed' : ''}`;
+                    const checkboxClass = `custom-checkbox ${task.priority} ${task.completed ? 'checked' : ''}`;
+                    item.innerHTML = `
+                        <div class="${checkboxClass}" data-task-id="${task.id}" onclick="toggleTask(${task.id})" role="checkbox" aria-checked="${task.completed}" tabindex="0" onkeypress="if(event.key===' ') toggleTask(${task.id})"></div>
+                        <div class="task-text">${task.title}</div>
+                        <div class="task-priority priority-${task.priority}">${task.priority}</div>
+                        <button class="task-delete-btn" onclick="deleteTask(${task.id})" title="Delete task">×</button>
+                    `;
+                    taskList.appendChild(item);
+                });
+
+                const hideBtn = document.createElement('div');
+                hideBtn.className = 'show-more-tasks';
+                hideBtn.innerHTML = '<button onclick="toggleShowMoreTasks()">Hide all</button>';
+                taskList.appendChild(hideBtn);
+            }
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                safeStorage.setItem('tawhay-tasks', JSON.stringify(tasks));
+
+                // Animate checkbox before reload. Look it up by id so this works for
+                // mouse, keyboard, and programmatic calls (no reliance on the global event).
+                if (task.completed) {
+                    const checkbox = document.querySelector(`.custom-checkbox[data-task-id="${id}"]`);
+                    if (checkbox && checkbox.classList.contains('custom-checkbox')) {
+                        checkbox.classList.add('checked');
+
+                        // Brief celebration before updating
+                        const completed = tasks.filter(t => t.completed).length;
+                        const total = tasks.length;
+                        if (completed === total) {
+                            celebrate('All tasks complete! Amazing!');
+                        } else if (completed % 2 === 0) {
+                            celebrate('Excellent progress!');
+                        } else {
+                            celebrate('Nice work!');
+                        }
+
+                        // Wait for animation then reload
+                        setTimeout(() => {
+                            loadTasks();
+                            updateGreeting();
+                        }, 400);
+                    } else {
+                        loadTasks();
+                        updateGreeting();
+                    }
+                } else {
+                    loadTasks();
+                    updateGreeting();
+                }
+            }
+        }
+
+        function celebrate(message) {
+            const flower = document.getElementById('flower');
+            if (!flower) return;
+
+            // Smooth, unified pulse (no sudden scale/rotate). Restart the animation cleanly.
+            flower.classList.remove('celebrating');
+            void flower.offsetWidth;
+            flower.classList.add('celebrating');
+            setTimeout(() => flower.classList.remove('celebrating'), 700);
+
+            // Show celebration message
+            const flowerText = document.getElementById('flowerText');
+            if (flowerText) {
+                flowerText.style.animation = 'none';
+                void flowerText.offsetWidth;
+                flowerText.style.animation = 'celebrationMessage 0.5s ease-in-out';
+                flowerText.textContent = message;
+                setTimeout(() => { flowerText.style.animation = 'none'; }, 600);
+            }
+
+            setTimeout(() => {
+                updateFlower();
+            }, 2500);
+        }
+
+        // Celebration message animation (flower pulse uses the .celebrating class in the stylesheet).
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes celebrationMessage {
+                0% { opacity: 0; transform: scale(0.8); }
+                50% { opacity: 1; }
+                100% { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        function deleteTask(id) {
+            if (confirm('Delete this task?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                safeStorage.setItem('tawhay-tasks', JSON.stringify(tasks));
+                loadTasks();
+                updateFlower();
+            }
+        }
+
+        let selectedTaskPriority = 'low';
+
+        function selectPriority(button) {
+            document.querySelectorAll('.priority-option').forEach(b => b.classList.remove('selected'));
+            button.classList.add('selected');
+            selectedTaskPriority = button.dataset.priority;
+        }
+
+        // One source of truth for new task IDs (avoids Math.max on an empty array).
+        function nextTaskId() {
+            return tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+        }
+
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            if (input.value.trim()) {
+                tasks.push({
+                    id: nextTaskId(),
+                    title: input.value,
+                    completed: false,
+                    priority: selectedTaskPriority
+                });
+                safeStorage.setItem('tawhay-tasks', JSON.stringify(tasks));
+                input.value = '';
+                loadTasks();
+            }
+        }
+
+        function addCleaningTask(title) {
+            tasks.push({
+                id: nextTaskId(),
+                title: title,
+                completed: false,
+                priority: 'medium'
+            });
+            safeStorage.setItem('tawhay-tasks', JSON.stringify(tasks));
+            loadTasks();
+        }
+
+        function updateFlower() {
+            const completed = tasks.filter(t => t.completed).length;
+            const total = tasks.length || 1;
+            const percentage = Math.round((completed / total) * 100);
+
+            const flower = document.getElementById('flower');
+
+            // Growth stages tied to completion: Seed → Sprout → Growing → Bud → Bloom → Full Bloom
+            let stageEmoji = '🌱';
+            if (percentage === 0) stageEmoji = '🌱';
+            else if (percentage < 20) stageEmoji = '🌱';
+            else if (percentage < 40) stageEmoji = '🌿';
+            else if (percentage < 60) stageEmoji = '🌾';
+            else if (percentage < 80) stageEmoji = '🌷';
+            else if (percentage < 100) stageEmoji = '🌸';
+            else stageEmoji = '🌹';
+
+            // Unified visual: one emoji inside an SVG progress ring (no overlapping petals)
+            const size = 200, stroke = 10, r = (size - stroke) / 2;
+            const circ = 2 * Math.PI * r;
+            const offset = circ * (1 - percentage / 100);
+            flower.innerHTML = `
+                <svg class="flower-ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="flowerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#A8B89C"/>
+                            <stop offset="100%" stop-color="#D4A574"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="rgba(212,165,116,0.18)" stroke-width="${stroke}"/>
+                    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="url(#flowerGrad)" stroke-width="${stroke}"
+                            stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+                            transform="rotate(-90 ${size/2} ${size/2})"/>
+                </svg>
+                <div class="flower-emoji">${stageEmoji}</div>
+                <div class="flower-percent">${percentage}%</div>
+            `;
+
+            // Psychological encouragement messages
+            let message = '';
+            if (completed === 0) {
+                message = `You're ready to bloom. Start with your first task.`;
+            } else if (percentage < 25) {
+                message = `Beautiful start! ${completed} task${completed > 1 ? 's' : ''} done. Your seed is sprouting! 🌱`;
+            } else if (percentage < 50) {
+                message = `${percentage}% done! You're growing stronger. Keep nurturing your progress! 🌿`;
+            } else if (percentage < 75) {
+                message = `Halfway there! Your dedication is flourishing beautifully! 🌾`;
+            } else if (percentage < 100) {
+                message = `${percentage}% complete! Almost in full bloom. You're so close! 🌼`;
+            } else {
+                message = `Perfect! All tasks complete. Your flower is in full bloom! 🌹`;
+            }
+
+            document.getElementById('flowerText').textContent = message;
+        }
+
+        function setMood(btn) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const mood = btn.textContent;
+            safeStorage.setItem('tawhay-mood', mood);
+        }
+
+        function loadMood() {
+            const mood = safeStorage.getItem('tawhay-mood');
+            if (mood) {
+                const btn = Array.from(document.querySelectorAll('.mood-btn')).find(b => b.textContent === mood);
+                if (btn) {
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                }
+            }
+        }
+
+        function getCurrentMonthKey() {
+            const now = new Date();
+            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        // Add a highlight/lowlight straight to stored data, then re-render (data is the source
+        // of truth — never read text back out of the DOM, which mixed in the "×" button before).
+        function addMonthlyEntry(type) {
+            const input = document.getElementById(type === 'highlights' ? 'newHighlight' : 'newLowlight');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const monthKey = getCurrentMonthKey();
+            const allData = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            if (!allData[monthKey]) allData[monthKey] = { highlights: [], lowlights: [] };
+            allData[monthKey][type].push(text);
+            safeStorage.setItem('tawhay-monthly', JSON.stringify(allData));
+
+            input.value = '';
+            loadMonthlyData();
+        }
+
+        function addHighlight() { addMonthlyEntry('highlights'); }
+        function addLowlight() { addMonthlyEntry('lowlights'); }
+
+        // Shared renderer so highlights and lowlights always look and behave identically.
+        function renderMonthlyItem(text, idx, type) {
+            const deleteFn = type === 'highlights' ? 'deleteHighlight' : 'deleteLowlight';
+            const item = document.createElement('div');
+            item.className = 'monthly-item';
+            item.innerHTML = `<span>${text}</span><button class="delete-month-item" onclick="${deleteFn}(${idx})" aria-label="Delete">×</button>`;
+            const btn = item.querySelector('.delete-month-item');
+            item.addEventListener('mouseenter', () => btn.style.opacity = '1');
+            item.addEventListener('mouseleave', () => btn.style.opacity = '0');
+            return item;
+        }
+
+        function loadMonthlyData() {
+            const monthKey = getCurrentMonthKey();
+            const allData = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            const data = allData[monthKey] || { highlights: [], lowlights: [] };
+            const highlightsList = document.getElementById('highlightsList');
+            const lowlightsList = document.getElementById('lowlightsList');
+
+            highlightsList.querySelectorAll('.monthly-item').forEach(el => el.remove());
+            lowlightsList.querySelectorAll('.monthly-item').forEach(el => el.remove());
+
+            data.highlights.forEach((text, idx) => highlightsList.appendChild(renderMonthlyItem(text, idx, 'highlights')));
+            data.lowlights.forEach((text, idx) => lowlightsList.appendChild(renderMonthlyItem(text, idx, 'lowlights')));
+        }
+
+        function deleteHighlight(index) {
+            const monthKey = getCurrentMonthKey();
+            const allData = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            if (allData[monthKey]) {
+                allData[monthKey].highlights.splice(index, 1);
+                safeStorage.setItem('tawhay-monthly', JSON.stringify(allData));
+                loadMonthlyData();
+            }
+        }
+
+        function deleteLowlight(index) {
+            const monthKey = getCurrentMonthKey();
+            const allData = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            if (allData[monthKey]) {
+                allData[monthKey].lowlights.splice(index, 1);
+                safeStorage.setItem('tawhay-monthly', JSON.stringify(allData));
+                loadMonthlyData();
+            }
+        }
+
+        const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        function initializeMeals() {
+            const defaultMeals = {
+                Monday: [
+                    { name: 'Oatmeal', ingredients: 'Oats, milk, honey, berries' },
+                    { name: 'Salad', ingredients: 'Mixed greens, vegetables, vinaigrette' },
+                    { name: 'Pasta', ingredients: 'Pasta, tomato sauce, vegetables' }
+                ],
+                Tuesday: [
+                    { name: 'Eggs', ingredients: 'Eggs, toast, butter, jam' },
+                    { name: 'Sandwich', ingredients: 'Bread, meat, lettuce, tomato' },
+                    { name: 'Fish', ingredients: 'Fish fillet, lemon, herbs, vegetables' }
+                ],
+                Wednesday: [
+                    { name: 'Yogurt', ingredients: 'Greek yogurt, granola, berries' },
+                    { name: 'Soup', ingredients: 'Broth, vegetables, herbs' },
+                    { name: 'Rice', ingredients: 'Rice, beans, seasonings' }
+                ],
+                Thursday: [
+                    { name: 'Smoothie', ingredients: 'Fruits, yogurt, milk, honey' },
+                    { name: 'Bowl', ingredients: 'Grains, vegetables, protein, sauce' },
+                    { name: 'Chicken', ingredients: 'Chicken breast, spices, olive oil' }
+                ],
+                Friday: [
+                    { name: 'Pancakes', ingredients: 'Flour, eggs, milk, butter, syrup' },
+                    { name: 'Pizza', ingredients: 'Dough, sauce, cheese, toppings' },
+                    { name: 'Steak', ingredients: 'Beef steak, salt, pepper, butter' }
+                ],
+                Saturday: [
+                    { name: 'Fruit', ingredients: 'Fresh seasonal fruits' },
+                    { name: 'Tacos', ingredients: 'Tortillas, meat, salsa, lettuce, cheese' },
+                    { name: 'BBQ', ingredients: 'Grilled meat, vegetables, sauce' }
+                ],
+                Sunday: [
+                    { name: 'Toast', ingredients: 'Bread, butter, jam, fruit' },
+                    { name: 'Wrap', ingredients: 'Tortilla, vegetables, protein, sauce' },
+                    { name: 'Roast', ingredients: 'Roasted vegetables and meat' }
+                ]
+            };
+
+            const saved = safeStorage.getItem('tawhay-meals');
+            return saved ? JSON.parse(saved) : defaultMeals;
+        }
+
+        let mealData = initializeMeals();
+
+        function saveMeals() {
+            safeStorage.setItem('tawhay-meals', JSON.stringify(mealData));
+        }
+
+        let currentMealDay = DAYS[0];
+
+        function renderMealPlanner() {
+            // Render tabs
+            const tabsContainer = document.getElementById('mealPlannerTabs');
+            tabsContainer.innerHTML = '';
+
+            DAYS.forEach(day => {
+                const tab = document.createElement('button');
+                tab.className = `meal-tab ${day === currentMealDay ? 'active' : ''}`;
+                tab.textContent = day.slice(0, 3);
+                tab.onclick = () => {
+                    currentMealDay = day;
+                    renderMealPlanner();
+                };
+                tabsContainer.appendChild(tab);
+            });
+
+            // Render content for current day
+            const contentContainer = document.getElementById('mealPlannerContent');
+            contentContainer.innerHTML = '';
+
+            const dayTitle = document.createElement('div');
+            dayTitle.style.fontSize = '1.1rem';
+            dayTitle.style.fontWeight = '600';
+            dayTitle.style.marginBottom = '1rem';
+            dayTitle.style.color = 'var(--primary)';
+            dayTitle.textContent = currentMealDay;
+            contentContainer.appendChild(dayTitle);
+
+            const meals = mealData[currentMealDay] || [];
+
+            if (meals.length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.style.textAlign = 'center';
+                emptyMsg.style.padding = '1rem';
+                emptyMsg.style.color = 'var(--text-light)';
+                emptyMsg.textContent = 'No meals planned yet. Add one below!';
+                contentContainer.appendChild(emptyMsg);
+            } else {
+                meals.forEach((meal, idx) => {
+                    const mealItem = document.createElement('div');
+                    mealItem.className = 'meal-item-card';
+
+                    const mealName = document.createElement('div');
+                    mealName.className = 'meal-item-card-name';
+                    mealName.textContent = meal.name || meal;
+                    mealItem.appendChild(mealName);
+
+                    if (meal.ingredients) {
+                        const ingredients = document.createElement('div');
+                        ingredients.className = 'meal-item-card-ingredients';
+                        ingredients.textContent = meal.ingredients;
+                        mealItem.appendChild(ingredients);
+                    }
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'meal-item-card-remove';
+                    removeBtn.textContent = '×';
+                    removeBtn.onclick = () => {
+                        removeMeal(currentMealDay, idx);
+                    };
+                    mealItem.appendChild(removeBtn);
+
+                    contentContainer.appendChild(mealItem);
+                });
+            }
+
+            // Add meal input
+            const inputSection = document.createElement('div');
+            inputSection.style.marginTop = '1.5rem';
+            inputSection.style.paddingTop = '1rem';
+            inputSection.style.borderTop = '1px solid var(--border)';
+
+            const inputRow = document.createElement('div');
+            inputRow.style.display = 'grid';
+            inputRow.style.gridTemplateColumns = '1fr 1fr auto';
+            inputRow.style.gap = '0.8rem';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Meal name...';
+            input.className = 'meal-input-field';
+            inputRow.appendChild(input);
+
+            const ingredInput = document.createElement('input');
+            ingredInput.type = 'text';
+            ingredInput.placeholder = 'Ingredients...';
+            ingredInput.className = 'meal-input-field';
+            ingredInput.onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                    addMeal(currentMealDay, input.value, ingredInput.value);
+                    input.value = '';
+                    ingredInput.value = '';
+                }
+            };
+            inputRow.appendChild(ingredInput);
+
+            const btn = document.createElement('button');
+            btn.textContent = 'Add';
+            btn.className = 'meal-add-btn';
+            btn.onclick = () => {
+                addMeal(currentMealDay, input.value, ingredInput.value);
+                input.value = '';
+                ingredInput.value = '';
+            };
+            inputRow.appendChild(btn);
+
+            inputSection.appendChild(inputRow);
+            contentContainer.appendChild(inputSection);
+        }
+
+        function addMeal(day, mealName, ingredients) {
+            const name = mealName.trim();
+            const ingredientsText = ingredients.trim();
+
+            if (!name) return;
+            if (!ingredientsText) {
+                alert('Please add ingredients for your meal');
+                return;
+            }
+
+            if (!mealData[day]) mealData[day] = [];
+            mealData[day].push({
+                name: name,
+                ingredients: ingredientsText
+            });
+            saveMeals();
+            renderMealPlanner();
+        }
+
+        function addCulturalMeal(day, culture, mealIndex) {
+            if (!CULTURAL_MEALS[culture] || !CULTURAL_MEALS[culture][mealIndex]) return;
+
+            const meal = CULTURAL_MEALS[culture][mealIndex];
+            if (!mealData[day]) mealData[day] = [];
+            mealData[day].push({ ...meal });
+            saveMeals();
+            renderMealPlanner();
+        }
+
+        function removeMeal(day, index) {
+            if (mealData[day]) {
+                mealData[day].splice(index, 1);
+                saveMeals();
+                renderMealPlanner();
+            }
+        }
+
+        function renderCulturalMeals(searchQuery = '') {
+            const container = document.getElementById('culturalMealsContainer');
+            container.innerHTML = '';
+            const query = searchQuery.toLowerCase().trim();
+
+            Object.keys(CULTURAL_MEALS).forEach(culture => {
+                const cultureCard = document.createElement('div');
+                cultureCard.className = 'cultural-card';
+
+                const title = document.createElement('div');
+                title.className = 'cultural-title';
+                title.textContent = culture;
+                cultureCard.appendChild(title);
+
+                const mealsList = document.createElement('div');
+                mealsList.className = 'cultural-meals-list';
+
+                let mealCount = 0;
+                CULTURAL_MEALS[culture].forEach((meal, idx) => {
+                    const matches = query === '' ||
+                        culture.toLowerCase().includes(query) ||
+                        meal.name.toLowerCase().includes(query) ||
+                        meal.ingredients.toLowerCase().includes(query);
+
+                    if (matches) {
+                        const mealBtn = document.createElement('button');
+                        mealBtn.className = 'cultural-meal-btn';
+                        mealBtn.innerHTML = `<div style="font-weight: 500;">${meal.name}</div><div style="font-size: 0.7rem; color: var(--text-light);">${meal.ingredients}</div>`;
+                        mealBtn.onclick = () => {
+                            addCulturalMeal(currentMealDay, culture, idx);
+                        };
+                        mealsList.appendChild(mealBtn);
+                        mealCount++;
+                    }
+                });
+
+                if (mealCount > 0) {
+                    cultureCard.appendChild(mealsList);
+                    container.appendChild(cultureCard);
+                }
+            });
+
+            // Show no results message if search returns nothing
+            if (container.children.length === 0 && query !== '') {
+                const noResults = document.createElement('div');
+                noResults.style.gridColumn = '1 / -1';
+                noResults.style.textAlign = 'center';
+                noResults.style.padding = '2rem';
+                noResults.style.color = 'var(--text-light)';
+                noResults.textContent = 'No meals found. Try a different search.';
+                container.appendChild(noResults);
+            }
+        }
+
+        function initializeMealSearch() {
+            const searchInput = document.getElementById('mealSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    renderCulturalMeals(e.target.value);
+                });
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settingName').value = userData.name || '';
+            document.getElementById('settingGoals').value = userData.goals || '';
+
+            // Pre-select current theme in settings
+            if (userData.theme) {
+                const swatches = document.querySelectorAll('.modal-content .color-swatch');
+                swatches.forEach(swatch => {
+                    if (swatch.dataset.theme === userData.theme) {
+                        swatch.classList.add('selected');
+                    } else {
+                        swatch.classList.remove('selected');
+                    }
+                });
+            }
+
+            document.getElementById('settingsModal').classList.add('open');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('open');
+        }
+
+        function saveSettings() {
+            userData.name = document.getElementById('settingName').value || userData.name;
+            userData.goals = document.getElementById('settingGoals').value || userData.goals;
+            safeStorage.setItem('tawhay-user', JSON.stringify(userData));
+            updateGreeting();
+            closeSettings();
+        }
+
+        function showOnboarding() {
+            preloadOnboarding();
+            document.getElementById('onboarding').classList.remove('hidden');
+            document.getElementById('app').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function resetApp() {
+            if (confirm('This will clear all your data. Are you sure?')) {
+                safeStorage.clear();
+                location.reload();
+            }
+        }
+
+        let musicPlaying = false;
+
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+
+            if (musicPlaying) {
+                audio.pause();
+                btn.textContent = 'Music: Off';
+                btn.classList.remove('playing');
+                musicPlaying = false;
+            } else {
+                audio.play().catch(err => {
+                    console.log('Auto-play blocked. Click to enable sound.');
+                });
+                btn.textContent = 'Music: On';
+                btn.classList.add('playing');
+                musicPlaying = true;
+            }
+
+            safeStorage.setItem('tawhay-music-enabled', musicPlaying);
+        }
+
+        function initializeMusic() {
+            const savedState = safeStorage.getItem('tawhay-music-enabled') === 'true';
+            if (savedState) {
+                toggleMusic();
+            }
+        }
+
+        function switchCalendarView(view, button) {
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const calendarView = document.getElementById('calendarView');
+            const today = new Date();
+
+            if (view === 'daily') {
+                renderDailyView(calendarView, today);
+            } else if (view === 'weekly') {
+                renderWeeklyView(calendarView, today);
+            } else if (view === 'monthly') {
+                renderMonthlyView(calendarView, today);
+            }
+        }
+
+        // Escape user text before injecting into calendar HTML.
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, c => (
+                { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+            ));
+        }
+
+        // The task list represents today's focus, so the calendar reflects it on today.
+        function renderDailyView(container, date) {
+            const dayName = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+            const isToday = date.toDateString() === new Date().toDateString();
+            const dayTasks = isToday ? tasks : [];
+            const done = dayTasks.filter(t => t.completed).length;
+
+            let body;
+            if (dayTasks.length === 0) {
+                body = `<div class="cal-empty">${isToday ? 'No tasks yet — add one below to start your day.' : 'No tasks for this day.'}</div>`;
+            } else {
+                body = `<div class="cal-count">${done} of ${dayTasks.length} complete</div>` +
+                    dayTasks.map(t => `<div class="cal-task ${t.completed ? 'done' : ''}">${escapeHtml(t.title)}</div>`).join('');
+            }
+
+            container.innerHTML = `
+                <div class="cal-day-card">
+                    <div class="cal-day-title">${dayName}</div>
+                    ${body}
+                </div>
+            `;
+        }
+
+        function renderWeeklyView(container, date) {
+            const startOfWeek = new Date(date);
+            startOfWeek.setDate(date.getDate() - date.getDay());
+            const todayStr = new Date().toDateString();
+            const done = tasks.filter(t => t.completed).length;
+
+            let html = '<div class="week-view">';
+            for (let i = 0; i < 7; i++) {
+                const day = new Date(startOfWeek);
+                day.setDate(startOfWeek.getDate() + i);
+                const dayName = day.toLocaleDateString('en-US', { weekday: 'short' });
+                const dayNum = day.getDate();
+                const isToday = day.toDateString() === todayStr;
+
+                // Tasks are day-agnostic ("today's focus"), so counts only show on today.
+                const cell = isToday
+                    ? (tasks.length > 0
+                        ? `<span class="week-count-badge">${done}/${tasks.length} tasks</span>`
+                        : `<span class="cal-empty">No tasks yet</span>`)
+                    : `<span class="cal-empty">—</span>`;
+
+                html += `
+                    <div class="week-day ${isToday ? 'is-today' : ''}">
+                        <div class="week-day-header">${dayName} ${dayNum}</div>
+                        ${cell}
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function renderMonthlyView(container, date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            const monthName = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+            let html = `<div style="margin-bottom: 1rem; text-align: center; font-weight: 600; color: var(--primary);">${monthName}</div>`;
+            html += '<div class="calendar-grid">';
+
+            // Day headers
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                html += `<div style="text-align: center; font-weight: 600; color: var(--text-light); font-size: 0.8rem; padding: 0.5rem;">${day}</div>`;
+            });
+
+            // Empty cells for days before month starts
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                html += '<div class="calendar-day other-month">-</div>';
+            }
+
+            // A small dot marks today when the month has any reflections recorded.
+            const dotMonthly = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            const dotMonthData = dotMonthly[getCurrentMonthKey()] || { highlights: [], lowlights: [] };
+            const monthHasNotes = (dotMonthData.highlights.length + dotMonthData.lowlights.length) > 0;
+
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = new Date().getDate() === day && new Date().getMonth() === month;
+                const dot = (isToday && monthHasNotes) ? '<span class="cal-note-dot"></span>' : '';
+                html += `<div class="calendar-day ${isToday ? 'today' : ''}">${day}${dot}</div>`;
+            }
+
+            // Empty cells for days after month ends
+            const totalCells = startingDayOfWeek + daysInMonth;
+            const remainingCells = 42 - totalCells;
+            for (let i = 0; i < remainingCells; i++) {
+                html += '<div class="calendar-day other-month">-</div>';
+            }
+
+            html += '</div>';
+
+            // Add highlights and lowlights (stored month-keyed, e.g. { "2026-06": {...} })
+            const allMonthly = JSON.parse(safeStorage.getItem('tawhay-monthly') || '{}');
+            const monthlyData = allMonthly[getCurrentMonthKey()] || { highlights: [], lowlights: [] };
+            if (monthlyData.highlights.length > 0 || monthlyData.lowlights.length > 0) {
+                html += '<div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">';
+                html += '<div style="font-weight: 600; color: var(--text); margin-bottom: 1rem;">This Month\'s Highlights & Lowlights</div>';
+                html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">';
+
+                if (monthlyData.highlights.length > 0) {
+                    html += '<div><div style="font-weight: 600; color: #7BA87F; margin-bottom: 0.5rem;">Highlights</div>';
+                    monthlyData.highlights.forEach(h => {
+                        html += `<div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.4rem;">• ${h}</div>`;
+                    });
+                    html += '</div>';
+                }
+
+                if (monthlyData.lowlights.length > 0) {
+                    html += '<div><div style="font-weight: 600; color: #B8938A; margin-bottom: 0.5rem;">Lowlights</div>';
+                    monthlyData.lowlights.forEach(l => {
+                        html += `<div style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.4rem;">• ${l}</div>`;
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div></div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Load on startup
+        const saved = safeStorage.getItem('tawhay-user');
+        if (saved) {
+            userData = JSON.parse(saved);
+            if (userData.theme) {
+                applyTheme(userData.theme);
+            }
+            document.getElementById('onboarding').classList.add('hidden');
+            document.getElementById('app').style.display = 'flex';
+            document.body.classList.add('loaded');
+            initializeApp();
+            initializeMusic();
+            renderDailyView(document.getElementById('calendarView'), new Date());
+        }
+
+        // Phase 1: Quick Actions Toggle
+        let quickActionsExpanded = safeStorage.getItem('tawhay-quick-actions-expanded') === 'true';
+
+        function toggleQuickActions() {
+            quickActionsExpanded = !quickActionsExpanded;
+            safeStorage.setItem('tawhay-quick-actions-expanded', quickActionsExpanded);
+
+            const toggle = document.querySelector('.quick-actions-toggle');
+            const content = document.getElementById('quickActionsContent');
+            const chevron = toggle.querySelector('.chevron');
+
+            if (quickActionsExpanded) {
+                toggle.classList.add('open');
+                chevron.style.transform = 'rotate(180deg)';
+                content.style.maxHeight = '5000px';
+                content.classList.add('open');
+            } else {
+                toggle.classList.remove('open');
+                chevron.style.transform = 'rotate(0deg)';
+                content.style.maxHeight = '0';
+                content.classList.remove('open');
+            }
+        }
+
+        // Restore state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restore age profile customization
+            restoreAgeProfile();
+
+            // Restore onboarding progress if incomplete
+            restoreOnboardingProgress();
+            preloadOnboarding();
+
+            // Restore Quick Actions state
+            if (quickActionsExpanded) {
+                const toggle = document.querySelector('.quick-actions-toggle');
+                const content = document.getElementById('quickActionsContent');
+                const chevron = toggle.querySelector('.chevron');
+                chevron.style.transform = 'rotate(180deg)';
+                content.style.maxHeight = '5000px';
+                content.classList.add('open');
+            }
+        });
+    </script>
+</body>
+</html>

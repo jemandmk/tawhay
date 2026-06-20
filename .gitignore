@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+
+# Editor / tooling
+.claude/
+.vercel/
+
+# Internal planning notes (not part of the app)
+TRANSFORMATION_PLAN.md
+
+# Dependencies (none needed, but just in case)
+node_modules/
