@@ -40,6 +40,7 @@
             background: linear-gradient(135deg, #F5F3EF 0%, #F0EBE5 50%, #F5F3EF 100%);
             background-attachment: fixed;
             color: var(--text);
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -471,6 +472,7 @@
             grid-row: 2;
             padding: 3rem 4rem;
             max-width: 900px;
+            min-width: 0; /* allow the grid item to shrink so inner content can't force overflow */
         }
 
         .app {
@@ -1525,6 +1527,23 @@
             transform: scale(1.2);
         }
 
+        .meal-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.8rem;
+        }
+
+        /* min-width:0 lets the inputs shrink instead of forcing the row to overflow */
+        .meal-form-grid .meal-input-field {
+            min-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            .meal-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .meal-input-field {
             padding: 0.8rem;
             border: 1px solid var(--border);
@@ -1740,6 +1759,18 @@
             font-size: 0.95rem;
         }
 
+        .monthly-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .monthly-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .monthly-list {
             margin-bottom: 1rem;
             max-height: 120px;
@@ -1806,17 +1837,134 @@
         }
 
         /* RESPONSIVE */
+        /* ---------- PHONES ---------- */
         @media (max-width: 640px) {
+            .app-header {
+                padding: 0.85rem 1rem;
+                gap: 0.6rem;
+            }
+
+            /* The app is revealed with an inline `display:flex` (set in JS), which makes the
+               header and main sit side-by-side. On mobile we want them stacked full-width, so
+               we override that inline style with !important (the only way to beat inline). */
             .app {
-                padding: 3rem 1rem 2rem;
+                display: block !important;
+            }
+
+            .app-main {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                padding: 1.25rem 1rem 2rem;
+            }
+
+            .welcome {
+                margin-bottom: 2rem;
+                padding: 1rem 0;
             }
 
             .greeting {
-                font-size: 1.8rem;
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+
+            .encouragement {
+                font-size: 0.95rem;
+            }
+
+            .date {
+                font-size: 0.95rem;
+                margin-top: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            /* Flower stays the hero but with tighter framing */
+            .flower-container {
+                padding: 2.5rem 1.25rem;
+                margin-bottom: 2.5rem;
+                border-radius: 24px;
+            }
+
+            .section {
+                margin-bottom: 2.5rem;
+            }
+
+            /* Mood: 5 word-labels need smaller type and tighter gaps to fit one row */
+            .mood-selector {
+                gap: 0.4rem;
+            }
+
+            .mood-btn {
+                padding: 0.85rem 0.3rem;
+                font-size: 0.78rem;
+            }
+
+            /* Weekly calendar becomes a horizontally scrollable strip */
+            .week-view {
+                grid-template-columns: repeat(7, minmax(54px, 1fr));
+                gap: 0.5rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 0.5rem;
+            }
+
+            .week-day {
+                min-height: 96px;
+                padding: 0.6rem 0.5rem;
+            }
+
+            .week-day-header {
+                font-size: 0.85rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .calendar-grid {
+                gap: 0.3rem;
+            }
+
+            /* Larger touch targets for the round header buttons */
+            .settings-btn,
+            .music-btn {
+                min-height: 42px;
             }
 
             .color-grid {
                 grid-template-columns: repeat(3, 1fr);
+            }
+
+            .onboarding-content {
+                padding: 2.5rem 1.5rem;
+                border-radius: 24px;
+            }
+        }
+
+        /* ---------- SMALL PHONES ---------- */
+        @media (max-width: 400px) {
+            .greeting {
+                font-size: 1.7rem;
+            }
+
+            .flower {
+                width: 168px;
+                height: 168px;
+            }
+
+            .flower-emoji {
+                font-size: 4rem;
+            }
+
+            .flower::before {
+                width: 200px;
+                height: 200px;
+            }
+
+            .mood-btn {
+                font-size: 0.7rem;
+                padding: 0.8rem 0.2rem;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -1931,11 +2079,6 @@
     </style>
 </head>
 <body>
-    <!-- BACKGROUND MUSIC -->
-    <audio id="bgMusic" loop style="display: none;">
-        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
-    </audio>
-
     <!-- ONBOARDING -->
     <div class="onboarding" id="onboarding">
         <div class="onboarding-content">
@@ -2047,7 +2190,7 @@
         <div class="app-header">
             <!-- SETTINGS & MUSIC BUTTONS -->
             <button class="settings-btn" onclick="openSettings()" title="Settings" aria-label="Open settings">⚙</button>
-            <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music" aria-label="Toggle music">Music: Off</button>
+            <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle relaxing music" aria-label="Toggle relaxing music">🎵 Off</button>
         </div>
 
         <!-- MAIN CONTENT (Full Width) -->
@@ -2151,7 +2294,7 @@
                     <!-- MONTHLY HIGHLIGHTS & LOWLIGHTS -->
                     <div class="section">
                         <div class="section-title">This Month's Moments</div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="monthly-grid">
                             <div class="monthly-card highlight-card">
                                 <div class="monthly-header">Highlights</div>
                                 <div class="monthly-list" id="highlightsList">
@@ -3193,9 +3336,7 @@
             inputSection.style.borderTop = '1px solid var(--border)';
 
             const inputRow = document.createElement('div');
-            inputRow.style.display = 'grid';
-            inputRow.style.gridTemplateColumns = '1fr 1fr auto';
-            inputRow.style.gap = '0.8rem';
+            inputRow.className = 'meal-form-grid';
 
             const input = document.createElement('input');
             input.type = 'text';
@@ -3375,23 +3516,76 @@
             }
         }
 
+        // Relaxing ambient music, generated live with the Web Audio API — no audio files,
+        // no external URLs, no copyright concerns, and it works offline. A soft, slowly
+        // evolving chord pad (gentle low-pass filtered sine/triangle voices with slow swells).
         let musicPlaying = false;
+        let audioCtx = null;
+        let masterGain = null;
+
+        function buildAmbient() {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new Ctx();
+
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0; // start silent, fade in on play
+
+            // Warm low-pass filter so the pad stays soft, never harsh.
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 1100;
+            filter.Q.value = 0.6;
+
+            masterGain.connect(filter);
+            filter.connect(audioCtx.destination);
+
+            // A calm, open Cmaj9-style chord (Hz): C3 G3 C4 E4 G4 D5.
+            const chord = [130.81, 196.00, 261.63, 329.63, 392.00, 587.33];
+            chord.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                osc.type = i < 2 ? 'sine' : 'triangle';
+                osc.frequency.value = freq;
+                osc.detune.value = (i % 2 === 0 ? -4 : 4); // subtle chorus warmth
+
+                const voiceGain = audioCtx.createGain();
+                const level = Math.max(0.025, 0.10 - i * 0.012); // lower voices a touch louder
+                voiceGain.gain.value = level;
+
+                // Very slow, staggered volume swell per voice for a living, breathing pad.
+                const lfo = audioCtx.createOscillator();
+                lfo.frequency.value = 0.035 + i * 0.012;
+                const lfoGain = audioCtx.createGain();
+                lfoGain.gain.value = level * 0.5;
+                lfo.connect(lfoGain);
+                lfoGain.connect(voiceGain.gain);
+
+                osc.connect(voiceGain);
+                voiceGain.connect(masterGain);
+                osc.start();
+                lfo.start();
+            });
+        }
+
+        function fadeMaster(target, seconds) {
+            if (!audioCtx || !masterGain) return;
+            const now = audioCtx.currentTime;
+            masterGain.gain.cancelScheduledValues(now);
+            masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+            masterGain.gain.linearRampToValueAtTime(target, now + seconds);
+        }
 
         function toggleMusic() {
-            const audio = document.getElementById('bgMusic');
             const btn = document.getElementById('musicBtn');
 
             if (musicPlaying) {
-                audio.pause();
-                btn.textContent = 'Music: Off';
-                btn.classList.remove('playing');
+                fadeMaster(0, 1.2); // gentle fade out
+                if (btn) { btn.textContent = '🎵 Off'; btn.classList.remove('playing'); }
                 musicPlaying = false;
             } else {
-                audio.play().catch(err => {
-                    console.log('Auto-play blocked. Click to enable sound.');
-                });
-                btn.textContent = 'Music: On';
-                btn.classList.add('playing');
+                if (!audioCtx) buildAmbient();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                fadeMaster(0.18, 2.0); // gentle fade in
+                if (btn) { btn.textContent = '🎵 On'; btn.classList.add('playing'); }
                 musicPlaying = true;
             }
 
@@ -3399,9 +3593,17 @@
         }
 
         function initializeMusic() {
+            // Browsers block audio until a user gesture, so if music was on last time, resume
+            // it on the user's first interaction rather than trying (and failing) on load.
             const savedState = safeStorage.getItem('tawhay-music-enabled') === 'true';
             if (savedState) {
-                toggleMusic();
+                const startOnce = () => {
+                    if (!musicPlaying) toggleMusic();
+                    window.removeEventListener('pointerdown', startOnce);
+                    window.removeEventListener('keydown', startOnce);
+                };
+                window.addEventListener('pointerdown', startOnce);
+                window.addEventListener('keydown', startOnce);
             }
         }
 

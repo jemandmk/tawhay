@@ -10,3 +10,4 @@ TRANSFORMATION_PLAN.md
 
 # Dependencies (none needed, but just in case)
 node_modules/
+.vercel
